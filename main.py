@@ -1,11 +1,16 @@
 import requests
-import json
+
 
 API_KEY = 'BI4DCEMuOr7qMbwrAUPx9f4UsUmde1GqCh64PRJs'
-def load_data(file_path):
-    """ Loads JSON file. """
-    with open(file_path, "r", encoding="utf-8") as file:
-        return json.load(file)
+
+
+def get_animal_to_search():
+    """
+    Gets the user to enter an animal to search for
+    :return: animal
+    """
+    user_animal = input("Please enter an animal: ")
+    return user_animal
 
 
 def search_animal(name):
@@ -64,19 +69,18 @@ def write_animals_content(animals_html):
     """ Writes the updated content to 'animals_template.html'."""
     with open("animals.html", "w") as html_file:
         html_file.write(animals_html)
+    print("Website was successfully written to the file animals.html.")
 
 
 def main():
-    # animals_data = load_data("animals_data.json")
-    animals_data = search_animal('Fox')
+    user_animal = get_animal_to_search()
+    animals_data = search_animal(user_animal)
     animals_data_string = create_animals_data_string(animals_data)
     animals_template_html = read_animals_template_content()
     animals_template_html = animals_template_html.replace("__REPLACE_ANIMALS_INFO__",
                                                           animals_data_string)
     write_animals_content(animals_template_html)
 
-    for animal in animals_data:
-        print(animal)
 
 
 
