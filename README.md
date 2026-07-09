@@ -60,6 +60,7 @@ animal-web-generator/
 │
 ├── animals_web_generator.py
 ├── data_fetcher.py
+├── animals_template.html
 ├── animals.html
 ├── .gitignore
 ├── README.md
