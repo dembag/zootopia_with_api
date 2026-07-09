@@ -1,7 +1,4 @@
-import requests
-
-
-API_KEY = 'BI4DCEMuOr7qMbwrAUPx9f4UsUmde1GqCh64PRJs'
+import data_fetcher
 
 
 def get_animal_to_search():
@@ -11,15 +8,6 @@ def get_animal_to_search():
     """
     user_animal = input("Please enter an animal: ")
     return user_animal
-
-
-def search_animal(name):
-    """Gets animal data from API based on search string.
-        returns: animals_data."""
-    api_url = f'https://api.api-ninjas.com/v1/animals?name={name}'
-    animals_data = requests.get(api_url, headers={'X-Api-Key': API_KEY})
-    animals_data = animals_data.json()
-    return animals_data
 
 
 def create_animals_data_string(animal_data):
@@ -73,6 +61,8 @@ def write_animals_content(animals_html):
 
 
 def create_search_error_message(user_animal):
+    """ Creates a message that tells the user the search string
+        they entered is not in the database."""
     animal_card = ""
     animal_card += '<li class="cards__item">'
     animal_card += f'<div class="card__title">{user_animal}</div>\n'
@@ -84,10 +74,10 @@ def create_search_error_message(user_animal):
     return animal_card
 
 def main():
-    user_animal = get_animal_to_search()
-    animals_data = search_animal(user_animal)
+    animal_name = get_animal_to_search()
+    animals_data = data_fetcher.fetch_data(animal_name)
     if not animals_data:
-        animals_data_string = create_search_error_message(user_animal)
+        animals_data_string = create_search_error_message(animal_name)
     else:
         animals_data_string = create_animals_data_string(animals_data)
     animals_template_html = read_animals_template_content()
