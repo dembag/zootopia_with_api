@@ -72,19 +72,28 @@ def write_animals_content(animals_html):
     print("Website was successfully written to the file animals.html.")
 
 
+def create_search_error_message(user_animal):
+    animal_card = ""
+    animal_card += '<li class="cards__item">'
+    animal_card += f'<div class="card__title">{user_animal}</div>\n'
+    animal_card += '<p class="card__text">'
+    animal_card += (f"The animal <strong>{user_animal}</strong> does not exist "
+                    f"in the database.<br/>\n")
+    animal_card += '</p>'
+    animal_card += '</li>'
+    return animal_card
+
 def main():
     user_animal = get_animal_to_search()
     animals_data = search_animal(user_animal)
-    animals_data_string = create_animals_data_string(animals_data)
+    if not animals_data:
+        animals_data_string = create_search_error_message(user_animal)
+    else:
+        animals_data_string = create_animals_data_string(animals_data)
     animals_template_html = read_animals_template_content()
     animals_template_html = animals_template_html.replace("__REPLACE_ANIMALS_INFO__",
                                                           animals_data_string)
     write_animals_content(animals_template_html)
-
-
-
-
-
 
 
 if __name__ == '__main__':
